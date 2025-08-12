@@ -27,7 +27,7 @@ interface CartItem extends Product {
 interface Customer {
   id: string;
   name: string;
-  cpf_cnpj: string;
+  cpf_cnpj?: string; // Optional for cashiers
 }
 
 export default function PDV() {
@@ -66,6 +66,7 @@ export default function PDV() {
   };
 
   const fetchCustomers = async () => {
+    // Cashiers can only see id and name, admins/managers see all data
     const { data, error } = await supabase
       .from('customers')
       .select('id, name, cpf_cnpj')
@@ -419,11 +420,11 @@ export default function PDV() {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="">Venda sem cliente</SelectItem>
-                  {customers.map(customer => (
-                    <SelectItem key={customer.id} value={customer.id}>
-                      {customer.name} ({customer.cpf_cnpj})
-                    </SelectItem>
-                  ))}
+                   {customers.map(customer => (
+                     <SelectItem key={customer.id} value={customer.id}>
+                       {customer.name}{customer.cpf_cnpj ? ` (${customer.cpf_cnpj})` : ''}
+                     </SelectItem>
+                   ))}
                 </SelectContent>
               </Select>
             </div>
