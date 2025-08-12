@@ -5,6 +5,10 @@ import { Sidebar } from '@/components/layout/Sidebar';
 import { Header } from '@/components/layout/Header';
 import Dashboard from './Dashboard';
 import PDV from './PDV';
+import Products from './Products';
+import Customers from './Customers';
+import Sales from './Sales';
+import Installments from './Installments';
 import { Button } from '@/components/ui/button';
 
 const Index = () => {
@@ -53,13 +57,13 @@ const Index = () => {
       case 'pdv':
         return <PDV />;
       case 'products':
-        return <div>Gestão de Produtos (em desenvolvimento)</div>;
+        return <Products />;
       case 'customers':
-        return <div>Gestão de Clientes (em desenvolvimento)</div>;
+        return <Customers />;
       case 'sales':
-        return <div>Relatório de Vendas (em desenvolvimento)</div>;
+        return <Sales />;
       case 'installments':
-        return <div>Gestão de Carnês (em desenvolvimento)</div>;
+        return <Installments />;
       case 'settings':
         return <div>Configurações (em desenvolvimento)</div>;
       default:

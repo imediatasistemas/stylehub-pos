@@ -1,73 +1,92 @@
-# Welcome to your Lovable project
+# Sistema da Loja - POS
 
-## Project info
+Sistema de gestão e ponto de venda para lojas de roupas, desenvolvido com React, TypeScript e Supabase.
 
-**URL**: https://lovable.dev/projects/0a4a8331-ca39-40a1-860d-7d906f4cd3ee
+## Funcionalidades
 
-## How can I edit this code?
+- **Dashboard**: Visão geral do negócio com métricas importantes
+- **PDV (Ponto de Venda)**: Sistema completo de vendas com carrinho de compras
+- **Gestão de Produtos**: Cadastro e controle de estoque
+- **Gestão de Clientes**: Cadastro e histórico de clientes
+- **Relatórios de Vendas**: Análise de vendas e performance
+- **Gestão de Carnês**: Controle de vendas parceladas
+- **Autenticação**: Sistema de login seguro com Supabase
 
-There are several ways of editing your application.
+## Tecnologias Utilizadas
 
-**Use Lovable**
+- **Frontend**: React 18 + TypeScript
+- **UI**: shadcn/ui + Tailwind CSS
+- **Backend**: Supabase (PostgreSQL + Auth)
+- **Build Tool**: Vite
+- **Roteamento**: React Router DOM
+- **Estado**: React Query (TanStack Query)
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/0a4a8331-ca39-40a1-860d-7d906f4cd3ee) and start prompting.
+## Como Executar o Projeto
 
-Changes made via Lovable will be committed automatically to this repo.
+### Pré-requisitos
 
-**Use your preferred IDE**
+- Node.js 18+ 
+- npm ou yarn
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### Instalação
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+```bash
+# Clone o repositório
+git clone <URL_DO_REPOSITORIO>
 
-Follow these steps:
+# Entre no diretório
+cd stylehub-pos
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+# Instale as dependências
+npm install
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+# Configure as variáveis de ambiente
+# Crie um arquivo .env.local com suas credenciais do Supabase
+VITE_SUPABASE_URL=sua_url_do_supabase
+VITE_SUPABASE_ANON_KEY=sua_chave_anonima_do_supabase
 
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# Execute o projeto
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+### Scripts Disponíveis
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+- `npm run dev` - Inicia o servidor de desenvolvimento
+- `npm run build` - Gera build de produção
+- `npm run preview` - Visualiza o build de produção
+- `npm run lint` - Executa o linter
 
-**Use GitHub Codespaces**
+## Estrutura do Projeto
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+```
+src/
+├── components/          # Componentes reutilizáveis
+│   ├── layout/         # Componentes de layout (Header, Sidebar)
+│   └── ui/            # Componentes UI do shadcn/ui
+├── hooks/             # Hooks customizados
+├── integrations/      # Integrações externas (Supabase)
+├── lib/              # Utilitários e configurações
+├── pages/            # Páginas da aplicação
+└── main.tsx          # Ponto de entrada
+```
 
-## What technologies are used for this project?
+## Configuração do Supabase
 
-This project is built with:
+O projeto utiliza Supabase como backend. Para configurar:
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+1. Crie uma conta no [Supabase](https://supabase.com)
+2. Crie um novo projeto
+3. Configure as tabelas conforme as migrações em `supabase/migrations/`
+4. Configure as variáveis de ambiente com suas credenciais
 
-## How can I deploy this project?
+## Contribuição
 
-Simply open [Lovable](https://lovable.dev/projects/0a4a8331-ca39-40a1-860d-7d906f4cd3ee) and click on Share -> Publish.
+1. Faça um fork do projeto
+2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
+3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
+4. Push para a branch (`git push origin feature/AmazingFeature`)
+5. Abra um Pull Request
 
-## Can I connect a custom domain to my Lovable project?
+## Licença
 
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+Este projeto está sob a licença MIT. Veja o arquivo `LICENSE` para mais detalhes.
