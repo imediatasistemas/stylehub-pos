@@ -187,10 +187,10 @@ export default function Customers() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Clientes</h1>
-          <p className="text-muted-foreground">
-            Gerencie os clientes
-            {role && <Badge variant="outline" className="ml-2">{role}</Badge>}
-          </p>
+          <div className="flex items-center gap-2 text-muted-foreground">
+            <span>Gerencie os clientes</span>
+            {role && <Badge variant="outline">{role}</Badge>}
+          </div>
         </div>
         <Button onClick={openCreate} disabled={!isAdminOrManager}>
           {!isAdminOrManager && <Lock className="h-4 w-4 mr-2" />}
@@ -261,10 +261,13 @@ export default function Customers() {
       </Card>
 
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent>
+        <DialogContent aria-describedby="dialog-description">
           <DialogHeader>
             <DialogTitle>{editing ? "Editar Cliente" : "Novo Cliente"}</DialogTitle>
           </DialogHeader>
+          <div id="dialog-description" className="sr-only">
+            Formulário para {editing ? "editar dados do" : "cadastrar novo"} cliente
+          </div>
           <div className="space-y-3">
             <div className="grid grid-cols-2 gap-3">
               <div>

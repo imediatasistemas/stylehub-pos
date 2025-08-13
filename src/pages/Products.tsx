@@ -131,25 +131,56 @@ export default function Products() {
 
   const onImageSelected = async (file?: File) => {
     if (!file) return;
-    // Upload simples para Supabase Storage se existir bucket "products"
     try {
       const fileName = `${Date.now()}_${file.name}`;
       const { data, error } = await supabase.storage.from("products").upload(fileName, file);
       if (error) throw error;
       const { data: publicUrl } = supabase.storage.from("products").getPublicUrl(data.path);
       setForm((f) => ({ ...f, image_url: publicUrl.publicUrl }));
-      toast({ title: "Imagem enviada" });
+      toast({ title: "Imagem enviada com sucesso" });
     } catch (e) {
       console.error(e);
-      toast({ title: "Falha no upload", description: "Verifique o bucket 'products' no Supabase Storage.", variant: "destructive" });
+      toast({ 
+        title: "Falha no upload", 
+        description: "Erro ao fazer upload da imagem. Tente novamente.", 
+        variant: "destructive" 
+      });
     }
   };
 
   const save = async () => {
+    if (!form.code?.trim() || !form.name?.trim()) {
+      toast({ 
+        title: "Campos obrigatórios", 
+        description: "Código e nome são obrigatórios.", 
+        variant: "destructive" 
+      });
+      return;
+    }
+
+    if (form.sale_price <= 0 || form.cost_price < 0) {
+      toast({ 
+        title: "Preços inválidos", 
+        description: "Verifique os preços informados.", 
+        variant: "destructive" 
+      });
+      return;
+    }
+
     setSaving(true);
     try {
-      const payload = { ...form } as any;
-      if (!payload.image_url) delete payload.image_url;
+      const payload = {
+        code: form.code.trim(),
+        name: form.name.trim(),
+        description: form.description?.trim() || null,
+        size: form.size?.trim() || null,
+        color: form.color?.trim() || null,
+        category_id: form.category_id,
+        stock_quantity: Math.max(0, form.stock_quantity),
+        sale_price: form.sale_price,
+        cost_price: form.cost_price,
+        active: form.active
+      };
 
       if (editing) {
         const { error } = await supabase
@@ -157,20 +188,21 @@ export default function Products() {
           .update(payload)
           .eq("id", editing.id);
         if (error) throw error;
-        toast({ title: "Produto atualizado" });
+        toast({ title: "Produto atualizado com sucesso" });
       } else {
         const { error } = await supabase.from("products").insert(payload);
         if (error) throw error;
-        toast({ title: "Produto criado" });
+        toast({ title: "Produto criado com sucesso" });
       }
-      // refresh
+      
+      // Recarregar lista
       const { data } = await supabase.from("products").select("*").order("created_at", { ascending: false });
       setItems((data ?? []) as Product[]);
       setIsDialogOpen(false);
       resetForm();
     } catch (e) {
       console.error(e);
-      toast({ title: "Erro ao salvar", variant: "destructive" });
+      toast({ title: "Erro ao salvar", description: "Verifique os dados e tente novamente.", variant: "destructive" });
     } finally {
       setSaving(false);
     }
@@ -277,10 +309,13 @@ export default function Products() {
       </Card>
 
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent>
+        <DialogContent className="max-w-2xl" aria-describedby="product-dialog-description">
           <DialogHeader>
             <DialogTitle>{editing ? "Editar Produto" : "Novo Produto"}</DialogTitle>
           </DialogHeader>
+          <div id="product-dialog-description" className="sr-only">
+            Formulário para {editing ? "editar dados do" : "cadastrar novo"} produto
+          </div>
           <div className="space-y-3">
             <div className="grid grid-cols-2 gap-3">
               <div>
