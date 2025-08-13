@@ -101,14 +101,7 @@ export default function Customers() {
   };
 
   const save = async () => {
-    if (!isAdminOrManager) {
-      toast({ 
-        title: "Acesso negado", 
-        description: "Apenas administradores e gerentes podem cadastrar/editar clientes.", 
-        variant: "destructive" 
-      });
-      return;
-    }
+
 
     if (!form.name?.trim()) {
       toast({ 
@@ -154,14 +147,7 @@ export default function Customers() {
   };
 
   const remove = async (id: string) => {
-    if (!isAdminOrManager) {
-      toast({ 
-        title: "Acesso negado", 
-        description: "Apenas administradores e gerentes podem excluir clientes.", 
-        variant: "destructive" 
-      });
-      return;
-    }
+
 
     if (!confirm("Excluir este cliente?")) return;
     const { error } = await supabase.from("customers").delete().eq("id", id);
@@ -192,8 +178,7 @@ export default function Customers() {
             {role && <Badge variant="outline">{role}</Badge>}
           </div>
         </div>
-        <Button onClick={openCreate} disabled={!isAdminOrManager}>
-          {!isAdminOrManager && <Lock className="h-4 w-4 mr-2" />}
+        <Button onClick={openCreate}>
           <Plus className="h-4 w-4 mr-2" /> Novo Cliente
         </Button>
       </div>
@@ -237,7 +222,6 @@ export default function Customers() {
                           size="sm" 
                           variant="outline" 
                           onClick={() => openEdit(c)}
-                          disabled={!isAdminOrManager}
                         >
                           <Pencil className="h-4 w-4" />
                         </Button>
@@ -246,7 +230,6 @@ export default function Customers() {
                           variant="ghost" 
                           className="text-destructive" 
                           onClick={() => remove(c.id)}
-                          disabled={!isAdminOrManager}
                         >
                           <Trash2 className="h-4 w-4" />
                         </Button>
