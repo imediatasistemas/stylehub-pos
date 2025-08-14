@@ -9,6 +9,7 @@ import Products from './Products';
 import Customers from './Customers';
 import Sales from './Sales';
 import Installments from './Installments';
+import Settings from './Settings';
 import { Button } from '@/components/ui/button';
 
 const Index = () => {
@@ -65,7 +66,7 @@ const Index = () => {
       case 'installments':
         return <Installments />;
       case 'settings':
-        return <div>Configurações (em desenvolvimento)</div>;
+        return <Settings />;
       default:
         return <Dashboard />;
     }
