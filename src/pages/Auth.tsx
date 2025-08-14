@@ -6,12 +6,14 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useAuth } from '@/hooks/useAuth';
+import { useUserRole } from '@/hooks/useUserRole';
 import { useToast } from '@/hooks/use-toast';
 import { useEffect } from 'react';
 
 export default function Auth() {
   const [isLoading, setIsLoading] = useState(false);
   const { signIn, signUp, user } = useAuth();
+  const { isAdmin } = useUserRole();
   const { toast } = useToast();
   const navigate = useNavigate();
 
@@ -91,9 +93,9 @@ export default function Auth() {
         </CardHeader>
         <CardContent>
           <Tabs defaultValue="signin" className="w-full">
-            <TabsList className="grid w-full grid-cols-2">
+            <TabsList className={`grid w-full ${isAdmin ? 'grid-cols-2' : 'grid-cols-1'}`}>
               <TabsTrigger value="signin">Entrar</TabsTrigger>
-              <TabsTrigger value="signup">Cadastrar</TabsTrigger>
+              {isAdmin && <TabsTrigger value="signup">Cadastrar</TabsTrigger>}
             </TabsList>
             
             <TabsContent value="signin">
@@ -123,8 +125,9 @@ export default function Auth() {
               </form>
             </TabsContent>
             
-            <TabsContent value="signup">
-              <form onSubmit={handleSignUp} className="space-y-4">
+            {isAdmin && (
+              <TabsContent value="signup">
+                <form onSubmit={handleSignUp} className="space-y-4">
                 <div className="space-y-2">
                   <Label htmlFor="signup-name">Nome</Label>
                   <Input
@@ -159,8 +162,9 @@ export default function Auth() {
                 <Button type="submit" className="w-full" disabled={isLoading}>
                   {isLoading ? 'Cadastrando...' : 'Cadastrar'}
                 </Button>
-              </form>
-            </TabsContent>
+                </form>
+              </TabsContent>
+            )}
           </Tabs>
         </CardContent>
       </Card>
